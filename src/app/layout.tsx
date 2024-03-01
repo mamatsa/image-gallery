@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Image Gallery",
-  description:
-    "Making Science | Sweeft Acceleration Program / React.js II Step task",
+  title: "ფოტო გალერეა",
+  description: "აქსელერაციის პროგრამის მეორე ეტაპის დავალება",
 };
 
 export default function RootLayout({
@@ -15,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Navbar />
         <main className="mx-auto max-w-7xl">{children}</main>
       </body>
     </html>
