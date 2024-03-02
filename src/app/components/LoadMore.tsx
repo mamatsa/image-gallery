@@ -6,15 +6,17 @@ import { Photo } from "@/models/Images";
 import { fetchSearchImages } from "@/lib";
 import Gallery from "./Gallery";
 
+let page = 2;
+
 function LoadMore({ query }: { query: string }) {
   const [images, setImages] = useState<Photo[]>([]);
-  const [page, setPage] = useState(2);
 
   const observerTarget = useRef(null);
 
-  // Remove previous search images on query change
+  // Remove previous images and reset page count on query change
   useEffect(() => {
     setImages([]);
+    page = 2;
   }, [query]);
 
   // Infinite scroll with Intersection Observer API
@@ -22,10 +24,8 @@ function LoadMore({ query }: { query: string }) {
     const fetchData = async () => {
       const result = await fetchSearchImages(query, page);
       if (result) setImages([...images, ...result]);
-      setPage(page + 1);
+      page++;
     };
-
-    let observerRefValue = null; // variable to hold ref value
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -36,17 +36,17 @@ function LoadMore({ query }: { query: string }) {
       { threshold: 1 },
     );
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-      observerRefValue = observerTarget.current; // save ref value
+    const currentRef = observerTarget.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (observerRefValue) {
-        observer.unobserve(observerRefValue);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
-  }, [observerTarget, page, query, images]);
+  }, [observerTarget, query, images]);
 
   return (
     <>
