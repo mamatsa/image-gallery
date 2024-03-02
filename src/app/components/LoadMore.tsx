@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { Photo } from "@/models/Images";
 import { fetchSearchImages } from "@/lib";
+import Gallery from "./Gallery";
 
 function LoadMore({ query }: { query: string }) {
   const [images, setImages] = useState<Photo[]>([]);
@@ -11,7 +12,7 @@ function LoadMore({ query }: { query: string }) {
 
   const observerTarget = useRef(null);
 
-  // Remove previous query images on query change
+  // Remove previous search images on query change
   useEffect(() => {
     setImages([]);
   }, [query]);
@@ -49,24 +50,7 @@ function LoadMore({ query }: { query: string }) {
 
   return (
     <>
-      {/* Gallery */}
-      <section className="my-3 grid grid-cols-gallery gap-2 px-2">
-        {images?.map((image) => (
-          <div
-            className="relative h-64 overflow-hidden rounded-xl bg-gray-400"
-            style={{ backgroundColor: image.color }}
-            key={image.id}
-          >
-            <Image
-              src={image.urls.regular}
-              alt={image.alt_description}
-              fill={true}
-              sizes="(min-width: 1380px) 310px, (min-width: 1040px) calc(18.75vw + 55px), (min-width: 800px) 33.18vw, (min-width: 540px) 50vw, calc(100vw - 16px)"
-              className="object-cover"
-            />
-          </div>
-        ))}
-      </section>
+      <Gallery images={images} />
 
       {/* Spinner */}
       <div

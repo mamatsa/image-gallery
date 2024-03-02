@@ -1,8 +1,6 @@
 import { fetchPopularImages, fetchSearchImages } from "@/lib";
 import type { Photo } from "@/models/Images";
-import Image from "next/image";
-import Search from "./components/Search";
-import LoadMore from "./components/LoadMore";
+import { Gallery, Search, LoadMore } from "./components";
 
 export default async function Home({
   searchParams,
@@ -14,6 +12,7 @@ export default async function Home({
   const query = searchParams?.query || "";
 
   let images: Photo[] | undefined;
+  // Fetch popular images unless search word is provided
   if (!query) {
     images = await fetchPopularImages();
   } else {
@@ -24,23 +23,7 @@ export default async function Home({
     <>
       <Search />
 
-      <section className="my-3 grid grid-cols-gallery gap-2 px-2">
-        {images?.map((image) => (
-          <div
-            className="relative h-64 overflow-hidden rounded-xl bg-gray-400"
-            style={{ backgroundColor: image.color }}
-            key={image.id}
-          >
-            <Image
-              src={image.urls.regular}
-              alt={image.alt_description}
-              fill={true}
-              sizes="(min-width: 1380px) 310px, (min-width: 1040px) calc(18.75vw + 55px), (min-width: 800px) 33.18vw, (min-width: 540px) 50vw, calc(100vw - 16px)"
-              className="object-cover"
-            />
-          </div>
-        ))}
-      </section>
+      <Gallery images={images} />
 
       {query && images && images.length > 0 && <LoadMore query={query} />}
 
