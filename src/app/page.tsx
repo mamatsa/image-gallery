@@ -2,6 +2,7 @@ import { fetchPopularImages, fetchSearchImages } from "@/lib";
 import type { Photo } from "@/models/Images";
 import Image from "next/image";
 import Search from "./components/Search";
+import LoadMore from "./components/LoadMore";
 
 export default async function Home({
   searchParams,
@@ -40,6 +41,8 @@ export default async function Home({
           </div>
         ))}
       </section>
+
+      {query && images && images.length > 0 && <LoadMore query={query} />}
 
       {(!images || !images.length) && (
         <div className="mt-48 flex w-full justify-center">
