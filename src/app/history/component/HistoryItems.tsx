@@ -1,25 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import useSearchHistory from "@/hooks/useSearchHistory";
 
 const HistoryItems = () => {
-  const [history, setHistory] = useState([]);
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  useEffect(() => {
-    // Get search history from localstorage
-    try {
-      const searchHistory = localStorage.getItem("searchHistory") ?? "[]";
-      setHistory(JSON.parse(searchHistory));
-    } catch (e) {
-      console.error("Error retrieving search history:", e);
-    }
-  }, []);
+  const { history, deleteFromHistory } = useSearchHistory();
 
   // Update search params on history item toggle
   const handleTopicToggle = (term: string) => {
@@ -32,13 +22,9 @@ const HistoryItems = () => {
     replace(`${pathname}?${params.toString()}`);
   };
 
-  // Delete item from history and localstorage
+  // Delete item from history and search params
   const handleTopicDelete = (term: string) => {
-    const newHistory = history.filter((item) => item !== term);
-    setHistory(newHistory);
-    localStorage.setItem("searchHistory", JSON.stringify(newHistory));
-
-    // Remove from search params if current topic is deleted
+    deleteFromHistory(term);
     if (term === searchParams.get("query")) handleTopicToggle(term);
   };
 

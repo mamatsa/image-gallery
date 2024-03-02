@@ -2,30 +2,21 @@
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+import useSearchHistory from "@/hooks/useSearchHistory";
 
 const Search = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  function saveInSearchHistory(searchValue: string): void {
-    try {
-      let history: string[] = JSON.parse(
-        localStorage.getItem("searchHistory") || "[]",
-      );
-      const filteredHistory = history.filter((item) => item !== searchValue);
-      filteredHistory.unshift(searchValue);
-      localStorage.setItem("searchHistory", JSON.stringify(filteredHistory));
-    } catch (e) {
-      console.error("Error saving search history:", e);
-    }
-  }
+  const { saveInHistory } = useSearchHistory();
 
+  // Add query in search params
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);
-      saveInSearchHistory(term);
+      saveInHistory(term); // Saves term in localstorage for history page
     } else {
       params.delete("query");
     }
