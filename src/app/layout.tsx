@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-y-scroll">
         <Navbar />
         <main className="mx-auto max-w-7xl">{children}</main>
       </body>
