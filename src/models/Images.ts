@@ -4,7 +4,7 @@ const ImageSchema = z.object({
   id: z.string(),
   width: z.number(),
   height: z.number(),
-  blur_hash: z.string(),
+  color: z.string(),
   alt_description: z.string(),
   urls: z.object({
     regular: z.string(),

@@ -26,7 +26,8 @@ export default async function Home({
       <section className="my-3 grid grid-cols-gallery gap-2 px-2">
         {images?.map((image) => (
           <div
-            className="relative h-64 overflow-hidden rounded-xl"
+            className="relative h-64 overflow-hidden rounded-xl bg-gray-400"
+            style={{ backgroundColor: image.color }}
             key={image.id}
           >
             <Image
