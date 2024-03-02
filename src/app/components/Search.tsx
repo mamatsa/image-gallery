@@ -8,10 +8,24 @@ const Search = () => {
   const pathname = usePathname();
   const { replace } = useRouter();
 
+  function saveInSearchHistory(searchValue: string): void {
+    try {
+      let history: string[] = JSON.parse(
+        localStorage.getItem("searchHistory") || "[]",
+      );
+      const filteredHistory = history.filter((item) => item !== searchValue);
+      filteredHistory.unshift(searchValue);
+      localStorage.setItem("searchHistory", JSON.stringify(filteredHistory));
+    } catch (e) {
+      console.error("Error saving search history:", e);
+    }
+  }
+
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);
+      saveInSearchHistory(term);
     } else {
       params.delete("query");
     }
