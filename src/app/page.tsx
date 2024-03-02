@@ -16,7 +16,8 @@ export default async function Home({
   if (!query) {
     images = await fetchPopularImages();
   } else {
-    images = await fetchSearchImages(query);
+    const res = await fetchSearchImages(query);
+    images = res?.results;
   }
 
   return (

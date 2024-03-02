@@ -10,6 +10,7 @@ let page = 2;
 
 function LoadMore({ query }: { query: string }) {
   const [images, setImages] = useState<Photo[]>([]);
+  const [totalPages, setTotalPages] = useState<number | undefined>(3);
 
   const observerTarget = useRef(null);
 
@@ -22,8 +23,9 @@ function LoadMore({ query }: { query: string }) {
   // Infinite scroll with Intersection Observer API
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetchSearchImages(query, page);
-      if (result) setImages([...images, ...result]);
+      const res = await fetchSearchImages(query, page);
+      if (res) setImages([...images, ...res?.results]);
+      setTotalPages(res?.total_pages);
       page++;
     };
 
@@ -46,25 +48,27 @@ function LoadMore({ query }: { query: string }) {
         observer.unobserve(currentRef);
       }
     };
-  }, [observerTarget, query, images]);
+  }, [observerTarget, query, images, totalPages]);
 
   return (
     <>
       <Gallery images={images} />
 
-      {/* Spinner */}
-      <div
-        ref={observerTarget}
-        className="flex w-full items-center justify-center"
-      >
-        <Image
-          src="./spinner.svg"
-          alt="spinner"
-          width={48}
-          height={48}
-          className="object-contain"
-        />
-      </div>
+      {/* Spinner; Display when there are more photos to show. */}
+      {totalPages && totalPages >= page && (
+        <div
+          ref={observerTarget}
+          className="my-8 flex w-full items-center justify-center"
+        >
+          <Image
+            src="./spinner.svg"
+            alt="spinner"
+            width={48}
+            height={48}
+            className="object-contain"
+          />
+        </div>
+      )}
     </>
   );
 }

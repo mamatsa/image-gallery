@@ -15,7 +15,8 @@ export default async function History({
   // Fetch images based on search param
   let images: Photo[] | undefined;
   if (query) {
-    images = await fetchSearchImages(query);
+    const res = await fetchSearchImages(query);
+    images = res?.results;
   }
 
   return (
