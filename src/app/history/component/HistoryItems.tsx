@@ -29,22 +29,22 @@ const HistoryItems = () => {
   };
 
   return (
-    <section className="mx-2 mt-4 flex items-center gap-4 ">
-      <h1 className="text-lg">ძებნის ისტორია:</h1>
-      <ul className="flex items-center gap-3">
+    <section className="mx-2 mt-4">
+      <ul className="flex flex-wrap items-center gap-3">
+        <h1 className="mr-1 whitespace-nowrap text-lg">ძებნის ისტორია:</h1>
         {history.map((term) => (
           <li
             key={term}
-            className={`group relative cursor-pointer rounded-md border px-6  py-1 hover:bg-slate-200 ${searchParams.get("query") === term && "border-slate-600 bg-slate-200"}`}
+            className={`group relative cursor-pointer rounded-md border px-4  py-1 hover:bg-slate-200 ${searchParams.get("query") === term && "border-slate-600 bg-slate-200"}`}
             onClick={() => handleTopicToggle(term)}
           >
             <span>{term}</span>
             <Image
               src="./delete.svg"
               alt="delete"
-              width={12}
-              height={12}
-              className="absolute right-0 top-0 z-10 hidden -translate-y-1/2 translate-x-1/2 object-contain hover:scale-125 group-hover:block"
+              width={10}
+              height={10}
+              className="absolute right-0 top-0 z-10 -translate-y-1/2 translate-x-1/2 object-contain hover:scale-125 sm:hidden sm:group-hover:block"
               onClick={(e) => {
                 e.stopPropagation();
                 handleTopicDelete(term);
