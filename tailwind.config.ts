@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const config: Config = {
   content: [
@@ -8,6 +9,11 @@ const config: Config = {
   ],
   theme: {
     extend: {},
+    screens: {
+      xs: "475px",
+      ...defaultTheme.screens,
+    },
+
     gridTemplateColumns: {
       gallery: "repeat(auto-fit, minmax(250px, 1fr))",
     },
