@@ -19,7 +19,7 @@ export const SearchImagesResultSchema = z.object({
   results: z.array(ImageSchema),
 });
 
-export type Image = z.infer<typeof ImageSchema>;
+export type Photo = z.infer<typeof ImageSchema>;
 
 export type PopularImagesResult = z.infer<typeof PopularImagesResultSchema>;
 

@@ -1,11 +1,13 @@
-import type { PopularImagesResult } from "@/models/Images";
+import type { PopularImagesResult, Photo } from "@/models/Images";
 import { PopularImagesResultSchema } from "@/models/Images";
 
-export default async function fetchImages(
-  url: string,
-): Promise<PopularImagesResult | undefined> {
+export default async function fetchPopularImages(): Promise<
+  Photo[] | undefined
+> {
   try {
-    const res = await fetch(`${url}&client_id=${process.env.UNSPLASH_API_KEY}`);
+    const res = await fetch(
+      `https://api.unsplash.com/photos/?per_page=20&order_by=popularity&client_id=${process.env.UNSPLASH_API_KEY}`,
+    );
 
     if (!res.ok) throw new Error("Error while fetching images!");
 

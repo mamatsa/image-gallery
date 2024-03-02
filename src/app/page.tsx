@@ -1,30 +1,50 @@
-import fetchImages from "@/lib/fetchImages";
-import type { PopularImagesResult } from "@/models/Images";
+import { fetchPopularImages, fetchSearchImages } from "@/lib";
+import type { Photo } from "@/models/Images";
 import Image from "next/image";
+import Search from "./components/Search";
 
-export default async function Home() {
-  const url =
-    "https://api.unsplash.com/photos/?per_page=20&order_by=popularity";
-  const images: PopularImagesResult | undefined = await fetchImages(url);
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+  };
+}) {
+  const query = searchParams?.query || "";
 
-  if (!images) return <h2>სურათები ვერ მოიძებნა</h2>;
+  let images: Photo[] | undefined;
+  if (!query) {
+    images = await fetchPopularImages();
+  } else {
+    images = await fetchSearchImages(query);
+  }
 
   return (
-    <section className="grid-cols-gallery my-3 grid gap-2 px-2">
-      {images.map((image) => (
-        <div
-          className="relative h-64 overflow-hidden rounded-xl"
-          key={image.id}
-        >
-          <Image
-            src={image.urls.regular}
-            alt={image.alt_description}
-            fill={true}
-            sizes="(min-width: 1380px) 310px, (min-width: 1040px) calc(18.75vw + 55px), (min-width: 800px) 33.18vw, (min-width: 540px) 50vw, calc(100vw - 16px)"
-            className="object-cover"
-          />
+    <>
+      <Search />
+
+      <section className="my-3 grid grid-cols-gallery gap-2 px-2">
+        {images?.map((image) => (
+          <div
+            className="relative h-64 overflow-hidden rounded-xl"
+            key={image.id}
+          >
+            <Image
+              src={image.urls.regular}
+              alt={image.alt_description}
+              fill={true}
+              sizes="(min-width: 1380px) 310px, (min-width: 1040px) calc(18.75vw + 55px), (min-width: 800px) 33.18vw, (min-width: 540px) 50vw, calc(100vw - 16px)"
+              className="object-cover"
+            />
+          </div>
+        ))}
+      </section>
+
+      {(!images || !images.length) && (
+        <div className="mt-48 flex w-full justify-center">
+          <h2 className="text-red-500">ფოტოები ვერ მოიძებნა</h2>
         </div>
-      ))}
-    </section>
+      )}
+    </>
   );
 }
