@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import type { Statistics } from "@/models/Statistics";
 import { Photo } from "@/models/Images";
 import { fetchSearchImages } from "@/lib";
+import { useInView } from "@/hooks";
 import Gallery from "./Gallery";
 
 let page = 2;
@@ -19,7 +20,24 @@ function LoadMore({ query, openImageId, statistics }: Props) {
   const [images, setImages] = useState<Photo[]>([]);
   const [totalPages, setTotalPages] = useState<number | undefined>(3);
 
-  const observerTarget = useRef(null);
+  const { observerTargetRef, inView } = useInView();
+
+  // Infinite scroll
+  useEffect(() => {
+    const fetchMoreImages = async () => {
+      const res = await fetchSearchImages(query, page);
+      if (res) {
+        setImages((prevState) => [...prevState, ...res?.results]);
+      }
+      setTotalPages(res?.total_pages);
+      page++;
+    };
+
+    // If spinner comes in view fetch more images
+    if (inView) {
+      fetchMoreImages();
+    }
+  }, [inView, query]);
 
   // Find open image with it's id
   let openImage;
@@ -33,36 +51,6 @@ function LoadMore({ query, openImageId, statistics }: Props) {
     page = 2;
   }, [query]);
 
-  // Infinite scroll with Intersection Observer API
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetchSearchImages(query, page);
-      if (res) setImages([...images, ...res?.results]);
-      setTotalPages(res?.total_pages);
-      page++;
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchData(); // Fetch next page when spinner becomes visible
-        }
-      },
-      { threshold: 1 },
-    );
-
-    const currentRef = observerTarget.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [observerTarget, query, images, totalPages]);
-
   return (
     <>
       <Gallery images={images} openImage={openImage} statistics={statistics} />
@@ -70,7 +58,7 @@ function LoadMore({ query, openImageId, statistics }: Props) {
       {/* Spinner; Display when there are more photos to show. */}
       {totalPages && totalPages >= page && (
         <div
-          ref={observerTarget}
+          ref={observerTargetRef}
           className="my-8 flex w-full items-center justify-center"
         >
           <Image
