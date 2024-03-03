@@ -1,3 +1,5 @@
+"use server";
+
 import type { Statistics } from "@/models/Statistics";
 import { StatisticsSchema } from "@/models/Statistics";
 

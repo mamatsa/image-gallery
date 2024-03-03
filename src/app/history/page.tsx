@@ -7,13 +7,11 @@ import { Gallery, LoadMore } from "../components";
 type Props = {
   searchParams?: {
     query?: string;
-    openId?: string;
   };
 };
 
 export default async function History({ searchParams }: Props) {
   const query = searchParams?.query || "";
-  const openId = searchParams?.openId || "";
 
   // Fetch images based on search param
   let images: Photo[] | undefined;
@@ -22,31 +20,13 @@ export default async function History({ searchParams }: Props) {
     images = res?.results;
   }
 
-  // If image is open find it in images array and fetch it's statistics
-  let openImageStats: Statistics | undefined;
-  let openImage: Photo | undefined;
-  if (openId) {
-    openImage = images?.find((image) => image.id === openId);
-    openImageStats = await fetchImageStatistics(openId);
-  }
-
   return (
     <>
       <HistoryItems />
 
-      <Gallery
-        images={images}
-        openImage={openImage}
-        statistics={openImageStats}
-      />
+      <Gallery images={images} />
 
-      {query && images && images.length > 0 && (
-        <LoadMore
-          query={query}
-          openImageId={openId}
-          statistics={openImageStats}
-        />
-      )}
+      {query && images && images.length > 0 && <LoadMore query={query} />}
     </>
   );
 }
