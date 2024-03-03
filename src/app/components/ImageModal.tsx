@@ -11,7 +11,7 @@ type Props = {
 const ImageModal = ({ openImage, statistics, onModalClose }: Props) => {
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 top-0 z-20 flex items-center bg-slate-700 bg-opacity-60 p-1 "
+      className="fixed bottom-0 left-0 right-0 top-0 z-20 flex items-center bg-slate-700 bg-opacity-80 p-1 backdrop-blur-sm"
       onClick={() => onModalClose()}
     >
       <Image
@@ -23,17 +23,19 @@ const ImageModal = ({ openImage, statistics, onModalClose }: Props) => {
         onClick={(e) => onModalClose()}
       />
 
-      <div className="fixed z-30 mx-auto flex max-w-7xl flex-col items-center rounded-md bg-white xs:bottom-8 xs:left-8 xs:right-8 xs:top-8">
-        <Image
-          src={openImage?.urls.regular}
-          alt={openImage.alt_description}
-          width={openImage.width}
-          height={openImage.height}
-          className="mt-2 h-auto max-h-[calc(100%-80px)] w-auto max-w-[calc(100%-20px)]"
-        />
+      <div className="fixed bottom-8 left-8 right-8 top-8 z-30 mx-auto flex max-w-7xl flex-col items-center rounded-md bg-white">
+        <div className="h-[calc(100%-200px)] xs:h-[calc(100%-80px)]">
+          <Image
+            src={openImage?.urls.regular}
+            alt={openImage.alt_description}
+            width={openImage.width}
+            height={openImage.height}
+            className="mx-auto mt-2 h-auto max-h-full w-auto max-w-[calc(100%-20px)]"
+          />
+        </div>
 
         {statistics && (
-          <div className="mt-2 flex gap-5">
+          <div className="mb-4 mt-2 flex flex-col gap-5 xs:mb-0 xs:flex-row">
             <div className="text-center">
               <div className="font-bold">გადმოწერები</div>
               <div className="text-sm">
