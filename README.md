@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# სურათების გალერეა
 
-## Getting Started
+ფოტოების ვებ აპლიკაცია, სადაც მომხმარებელს მთავარ გვერდზე ხვდება პოპულარული სურათები. აპლიკაციას ასევე აქვს საძიებო ველი სასურველი თემატიკის შესაბამისი ფოტოების სანახავად. ძიებისას გამოყენებულ სიტყვებთან დაბრუნება კი ისტორიის გვერდიდანაა შესაძლებელი.
 
-First, run the development server:
+## სარჩევი
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. [გამოყენებული ტექნოლოგიები](#გამოყენებული-ტექნოლოგიები)
+2. [პროექტის ლოკალურად გაშვება](#პროექტის-ლოკალურად-გაშვება)
+3. [საიტის ვიზუალი](#საიტის-ვიზუალი)
+4. [რესურსები](#რესურსები)
+
+## გამოყენებული ტექნოლოგიები
+
+- Next.js
+- Typescript
+- Tailwind CSS
+- Zod
+
+## პროექტის ლოკალურად გაშვება
+
+**მიყევით შემდეგ ნაბიჯებს:**
+
+1\. დაკლონეთ გიტჰაბ რეპოზიტორია:
+
+```sh
+git clone https://github.com/mamatsa/image-gallery.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2\. დააყენეთ საჭირო ბიბლიოთეკები:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3\. დააკოპირეთ env.local.example ფაილი evn.local დასახელებით და ჩაწერეთ შიგნით საკუთარი Unsplash API-ს გასაღები.
 
-## Learn More
+```sh
+cp .env.local.example .env.local
+```
 
-To learn more about Next.js, take a look at the following resources:
+4\. ამის შემდეგ უკვე შეგიძლიათ პროექტის ლოკალურად გაშვება:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## საიტის ვიზუალი
 
-## Deploy on Vercel
+![](./readme-assets/screen1.png)
+![](./readme-assets/screen2.png)
+![](./readme-assets/screen3.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## გამოყენებული-რესურსები
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [Unsplash API](https://unsplash.com/documentation)
+- [გიტის კომიტების სტრუქტურა](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13)
