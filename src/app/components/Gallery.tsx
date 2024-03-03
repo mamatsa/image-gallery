@@ -25,11 +25,11 @@ const Gallery = ({ images, openImage, statistics }: Props) => {
         />
       )}
 
-      {images?.map((image) => (
+      {images?.map((image, i) => (
         <div
           className="relative h-64 overflow-hidden rounded-xl"
           style={{ backgroundColor: image.color }}
-          key={image.id}
+          key={image.id + i}
         >
           <Image
             src={image.urls.regular}
