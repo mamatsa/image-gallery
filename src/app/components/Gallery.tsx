@@ -1,10 +1,10 @@
 "use client";
 
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import type { Photo } from "@/models/Images";
 import type { Statistics } from "@/models/Statistics";
 import ImageModal from "./ImageModal";
+import useModal from "@/hooks/useModal";
 
 type Props = {
   images?: Photo[];
@@ -13,21 +13,7 @@ type Props = {
 };
 
 const Gallery = ({ images, openImage, statistics }: Props) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
-  const handleModalOpen = (id: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.append("openId", id);
-    replace(`${pathname}?${params.toString()}`);
-  };
-
-  const handleModalClose = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete("openId");
-    replace(`${pathname}?${params.toString()}`);
-  };
+  const { openModal, closeModal } = useModal();
 
   return (
     <section className="my-3 grid grid-cols-gallery gap-2 px-2">
@@ -35,7 +21,7 @@ const Gallery = ({ images, openImage, statistics }: Props) => {
         <ImageModal
           openImage={openImage}
           statistics={statistics}
-          onModalClose={handleModalClose}
+          onModalClose={closeModal}
         />
       )}
 
@@ -51,7 +37,7 @@ const Gallery = ({ images, openImage, statistics }: Props) => {
             fill={true}
             sizes="(min-width: 1380px) 310px, (min-width: 1040px) calc(18.75vw + 55px), (min-width: 800px) 33.18vw, (min-width: 540px) 50vw, calc(100vw - 16px)"
             className="cursor-pointer object-cover hover:opacity-75"
-            onClick={(item) => handleModalOpen(image.id)}
+            onClick={(item) => openModal(image.id)}
           />
         </div>
       ))}
