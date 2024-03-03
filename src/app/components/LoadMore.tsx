@@ -2,17 +2,30 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import type { Statistics } from "@/models/Statistics";
 import { Photo } from "@/models/Images";
 import { fetchSearchImages } from "@/lib";
 import Gallery from "./Gallery";
 
 let page = 2;
 
-function LoadMore({ query }: { query: string }) {
+type Props = {
+  query: string;
+  openImageId?: string;
+  statistics?: Statistics;
+};
+
+function LoadMore({ query, openImageId, statistics }: Props) {
   const [images, setImages] = useState<Photo[]>([]);
   const [totalPages, setTotalPages] = useState<number | undefined>(3);
 
   const observerTarget = useRef(null);
+
+  // Find open image with it's id
+  let openImage;
+  if (openImageId) {
+    openImage = images?.find((image) => image.id === openImageId);
+  }
 
   // Remove previous images and reset page count on query change
   useEffect(() => {
@@ -52,7 +65,7 @@ function LoadMore({ query }: { query: string }) {
 
   return (
     <>
-      <Gallery images={images} />
+      <Gallery images={images} openImage={openImage} statistics={statistics} />
 
       {/* Spinner; Display when there are more photos to show. */}
       {totalPages && totalPages >= page && (
