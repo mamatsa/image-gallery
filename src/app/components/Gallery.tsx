@@ -1,14 +1,11 @@
 import type { Photo } from "@/models/Images";
-import type { Statistics } from "@/models/Statistics";
 import ImageContainer from "./ImageContainer";
 
 type Props = {
   images?: Photo[];
-  openImage?: Photo;
-  statistics?: Statistics;
 };
 
-const Gallery = ({ images, statistics }: Props) => {
+const Gallery = ({ images }: Props) => {
   return (
     <section className="my-3 grid grid-cols-gallery gap-2 px-2">
       {images?.map((image, i) => (

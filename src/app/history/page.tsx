@@ -1,7 +1,6 @@
-import HistoryItems from "./component/HistoryItems";
-import { fetchSearchImages, fetchImageStatistics } from "@/lib";
+import HistoryItems from "./components/HistoryItems";
+import { fetchSearchImages } from "@/lib";
 import type { Photo } from "@/models/Images";
-import type { Statistics } from "@/models/Statistics";
 import { Gallery, LoadMore } from "../components";
 
 type Props = {
