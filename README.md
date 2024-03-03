@@ -8,6 +8,7 @@
 2. [პროექტის ლოკალურად გაშვება](#პროექტის-ლოკალურად-გაშვება)
 3. [საიტის ვიზუალი](#საიტის-ვიზუალი)
 4. [რესურსები](#რესურსები)
+5. [საიტის ლაივ მისამართი](#საიტის-ლაივ-მისამართი)
 
 ## გამოყენებული ტექნოლოგიები
 
@@ -50,7 +51,11 @@ npm run dev
 ![](./readme-assets/screen2.png)
 ![](./readme-assets/screen3.png)
 
-## გამოყენებული-რესურსები
+## რესურსები
 
 - [Unsplash API](https://unsplash.com/documentation)
 - [გიტის კომიტების სტრუქტურა](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13)
+
+## საიტის ლაივ მისამართი
+
+- [https://image-gallery-eta-flax.vercel.app/](https://image-gallery-eta-flax.vercel.app)
